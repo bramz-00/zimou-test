@@ -1,3 +1,62 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwind/_base.css";
+@import "tailwind/_components.css";
+@import "tailwind/_utilities.css";
+*{
+    font-family: "Poppins", sans-serif;
+
+}
+table {
+    @apply w-full ;
+    
+  
+  }
+  
+  thead {
+    @apply hidden lg:table-header-group;
+  }
+  
+  tr {
+    @apply max-w-full  w-full  block relative  border-2 border-gray-100
+      lg:table-row lg:border-b-0 ;
+  }
+  
+  tr:last-child {
+    @apply border-2 w-full;
+    
+  }
+  
+  td:not(:first-child) {
+    @apply     border-2  lg:border-gray-100;
+  }
+  
+  th {
+    @apply lg:text-left text-sm py-3  uppercase px-2 font-medium text-white  bg-blue-500 border-white border  ;
+  }
+  
+  td {
+   @apply  flex justify-between text-left text-sm items-center p-0  h-12 px-2   border-gray-100
+      lg:table-cell  lg:align-middle 
+      p-0.5
+      
+      text-slate-500
+      dark:text-slate-400
+      
+      lg:block
+      ;
+  }
+  
+  td:last-child {
+    @apply border;
+  }
+  
+  tbody tr, tbody tr:nth-child(odd) {
+    @apply lg:hover:bg-blue-100;
+  }
+  
+
+  
+  td:before {
+    content: attr(data-label);
+    @apply font-semibold pr-1 text-left lg:hidden;
+  }
+  

@@ -14,9 +14,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/prof', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('prof');
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -29,3 +27,4 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+require __DIR__.'/zimou-test.php';

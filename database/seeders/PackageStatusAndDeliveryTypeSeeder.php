@@ -33,7 +33,6 @@ class PackageStatusAndDeliveryTypeSeeder extends Seeder
             ['name' => 'Express Delivery'],
             ['name' => 'Same Day Delivery'],
             ['name' => 'Overnight Delivery'],
-            // Add more delivery types as needed
         ];
 
         foreach ($deliveryTypes as $type) {

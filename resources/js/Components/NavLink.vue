@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
-
+import { BeakerIcon } from '@heroicons/vue/24/outline'
 const props = defineProps({
     href: {
         type: String,
@@ -25,7 +25,9 @@ const classes = computed(() =>
     <Link :href="href" :class="[
         
         active?'text-blue-600   bg-gray-100   ':'text-gray-900  ',
-        'flex items-center p-2  rounded-md  dark-:hover:bg-gray-700 group']">
+        'flex gap-2  items-center p-2  rounded-md  dark-:hover:bg-gray-700 group']">
+                    
+
         <slot />
     </Link>
 </template>
