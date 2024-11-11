@@ -3,8 +3,8 @@
         <Menu as="div" class="relative inline-block text-left">
             <div>
                 <MenuButton
-                 :class="borderless ? 'border-0':'border'"
-                    class="inline-flex w-full  justify-center rounded-md bg-white/20 px-4 py-2 text-sm font-medium text-blue-600 hover:bg-white/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-black/75"
+                    :class="borderless ? 'border-0' : 'border'"
+                    class="inline-flex w-full justify-center rounded-md bg-white/20 px-4 py-2 text-sm font-medium text-blue-600 hover:bg-white/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-black/75"
                 >
                     {{ title }}
                     <ChevronDownIcon
@@ -32,6 +32,7 @@
                     >
                         <MenuItem v-slot="{ active }">
                             <Link
+                                v-if="link.method"
                                 :method="link.method"
                                 :href="link.routeName"
                                 :class="[
@@ -41,20 +42,40 @@
                                     'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                                 ]"
                             >
-                              
-                               
-
                                 <svg
-                                :active="active"
+                                    :active="active"
                                     viewBox="0 0 24 24"
                                     :width="'24'"
                                     :height="'24'"
-                                    class="text-gray-400 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white me-1.5 "
+                                    class="text-gray-400 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white me-1.5"
                                 >
                                     <path fill="currentColor" :d="link.path" />
                                 </svg>
                                 {{ link.label }}
                             </Link>
+
+                            <a
+                                v-else
+                                :method="link.method"
+                                :href="link.routeName"
+                                :class="[
+                                    active
+                                        ? 'bg-blue-500 text-white'
+                                        : 'text-gray-900',
+                                    'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                                ]"
+                            >
+                                <svg
+                                    :active="active"
+                                    viewBox="0 0 24 24"
+                                    :width="'24'"
+                                    :height="'24'"
+                                    class="text-gray-400 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white me-1.5"
+                                >
+                                    <path fill="currentColor" :d="link.path" />
+                                </svg>
+                                {{ link.label }}
+                            </a>
                         </MenuItem>
                     </div>
                 </MenuItems>
@@ -73,5 +94,4 @@ const props = defineProps({
     links: Object,
     borderless: Boolean,
 });
-
 </script>
