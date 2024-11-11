@@ -3,7 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Exports\PackagesExport;
+use App\Http\Requests\StorePackageRequest;
+use App\Http\Resources\PackageResource;
+use App\Http\Resources\UserResource;
+use App\Models\Commune;
+use App\Models\DeliveryType;
 use App\Models\Package;
+use App\Models\PackageStatus;
+use App\Models\Store;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Maatwebsite\Excel\Facades\Excel;
@@ -28,28 +36,28 @@ class PackageController extends Controller
     {
         $packages = (new Package)->newQuery();
 
-     
+
         if (request()->has('search')) {
             $search = strtolower(request()->input('search'));
-            $packages->where(function($query) use ($search) {
+            $packages->where(function ($query) use ($search) {
                 $query->whereRaw('LOWER(tracking_code) LIKE ?', ['%' . $search . '%'])
-        
-                      ->orWhereRaw('LOWER(address) LIKE ?', ['%' . $search . '%'])
-                      ->orWhereRaw('LOWER(name) LIKE ?', ['%' . $search . '%']);
+
+                    ->orWhereRaw('LOWER(address) LIKE ?', ['%' . $search . '%'])
+                    ->orWhereRaw('LOWER(name) LIKE ?', ['%' . $search . '%']);
             })
-            // Recherche sur le champ 'designation' de la relation 'activite'
-            ->orWhereHas('status', function ($query) use ($search) {
-                $query->whereRaw('LOWER(name) LIKE ?', ['%' . $search . '%']);
-            })
-            ->orWhereHas('deliveryType', function ($query) use ($search) {
-                $query->whereRaw('LOWER(name) LIKE ?', ['%' . $search . '%']);
-            })
-            ->orWhereHas('commune', function ($query) use ($search) {
-                $query->whereRaw('LOWER(name) LIKE ?', ['%' . $search . '%']);
-            })
-            ->orWhereHas('store', function ($query) use ($search) {
-                $query->whereRaw('LOWER(name) LIKE ?', ['%' . $search . '%']);
-            });
+                // Recherche sur le champ 'designation' de la relation 'activite'
+                ->orWhereHas('status', function ($query) use ($search) {
+                    $query->whereRaw('LOWER(name) LIKE ?', ['%' . $search . '%']);
+                })
+                ->orWhereHas('deliveryType', function ($query) use ($search) {
+                    $query->whereRaw('LOWER(name) LIKE ?', ['%' . $search . '%']);
+                })
+                ->orWhereHas('commune', function ($query) use ($search) {
+                    $query->whereRaw('LOWER(name) LIKE ?', ['%' . $search . '%']);
+                })
+                ->orWhereHas('store', function ($query) use ($search) {
+                    $query->whereRaw('LOWER(name) LIKE ?', ['%' . $search . '%']);
+                });
         }
         if (request()->query('sort')) {
             $attribute = request()->query('sort');
@@ -64,15 +72,31 @@ class PackageController extends Controller
         }
 
         $packages = $packages->with('store', 'status', 'commune', 'deliveryType')->paginate(7)
-                    ->onEachSide(2)
-                    ->appends(request()->query());
+            ->onEachSide(2)
+            ->appends(request()->query());
 
-        return Inertia::render('Packages/Index', [
-            'packages' => $packages,
+
+        return inertia()->render('Packages/Index', [
+            'packages' => PackageResource::collection(
+                $packages
+            ),
             'filters' => request()->all('search'),
         ]);
+
+
     }
 
+
+    public function store(StorePackageRequest $request)
+    {
+
+        $data= $request->all();
+        Package::create($data);
+        return redirect()->route('package.index')->with([
+            'message' => 'Package created with success',
+            'status' => 201
+        ]);
+    }
     public function exportExcel()
     {
         return Excel::download(new PackagesExport, 'packages.xlsx');
@@ -81,51 +105,30 @@ class PackageController extends Controller
     {
         return Excel::download(new PackagesExport, 'packages.csv');
     }
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    public function fetchCommunes()
     {
-        //
+        return response()->json(['communes' => Commune::with('wilaya')->get()]);
+    }
+    public function fetchStores()
+    {
+        return response()->json(['stores' => Store::get()]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function fetchPackageStatus()
     {
-        //
+        return response()->json(['package_status' => PackageStatus::get()]);
+    }
+    public function fetchDeliveryType()
+    {
+        return response()->json(['delivery_types' => DeliveryType::get()]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Package $package)
+    public function fetchUser()
     {
-        //
+        return UserResource::collection(User::all());
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Package $package)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Package $package)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Package $package)
-    {
-        //
-    }
+    
 }

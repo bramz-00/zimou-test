@@ -16,17 +16,13 @@ table {
   }
   
   tr {
-    @apply max-w-full  w-full  block relative  border-2 border-gray-100
+    @apply max-w-full  w-full  block relative mb-2 lg:mb-0  border-2 border-gray-100 rounded-lg  transform
       lg:table-row lg:border-b-0 ;
   }
-  
-  tr:last-child {
-    @apply border-2 w-full;
-    
-  }
+
   
   td:not(:first-child) {
-    @apply     border-2  lg:border-gray-100;
+    @apply     border  lg:border-gray-100;
   }
   
   th {
@@ -45,10 +41,7 @@ table {
       ;
   }
   
-  td:last-child {
-    @apply border;
-  }
-  
+
   tbody tr, tbody tr:nth-child(odd) {
     @apply lg:hover:bg-blue-100;
   }
@@ -60,3 +53,15 @@ table {
     @apply font-semibold pr-1 text-left lg:hidden;
   }
   
+
+  /* Hide arrows in Chrome, Safari, Edge, and Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hide arrows in Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}

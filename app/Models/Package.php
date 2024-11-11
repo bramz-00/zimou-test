@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Str;
 
 class Package extends Model
 {
@@ -60,5 +61,12 @@ class Package extends Model
     public function commune()
     {
         return $this->belongsTo(Commune::class)->with('wilaya');
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($package) {
+            $package->uuid = Str::uuid();
+        });
     }
 }
