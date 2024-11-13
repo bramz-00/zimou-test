@@ -30,7 +30,7 @@ return new class extends Migration
             $table->double('commission')->default(0);
             $table->dateTime('status_updated_at')->nullable();
             $table->dateTime('delivered_at')->nullable();
-            $table->double('')->unsigned();
+            $table->double('delivery_price')->unsigned();
             $table->unsignedInteger('extra_weight_price')->default(0)->comment('Prix extra poids');
             $table->boolean('free_delivery');
             $table->unsignedInteger('packaging_price')->default(0);
