@@ -13,3 +13,40 @@ Notes:
 - You are free to use any third party package or any UI dashboard
 
 Good luck 😃
+
+
+
+
+Important Instructions
+
+After cloning the repository, follow these steps:
+
+    Install Dependencies:
+    Run the following commands to install all dependencies:
+
+npm install
+composer install
+
+
+Run Migrations:
+Initialize the database structure with:
+
+php artisan migrate
+
+Seed the Database:
+Populate the database with initial data:
+
+php artisan db:seed --class=DatabaseSeeder
+
+Launch the Application:
+In separate terminals, run:
+
+npm run dev    # For the frontend
+php artisan serve    # For the backend
+
+Access the Application:
+
+    You can log in with the following credentials:
+        Email: admin@example.com
+        Password: password
+    Alternatively, you can create a new user by using the sign-up link on the login page.
